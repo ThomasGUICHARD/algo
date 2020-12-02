@@ -5,6 +5,19 @@ import sys
 import ed as ED
 
 
+def max3(a, b, c):
+    if a >= b:
+        if a >= c:
+            return a, 0  # a > b & a > c
+        else:
+            return c, 2  # c > a > b
+    else:
+        if b >= c:
+            return b, 1  # b > a & b > c
+        else:
+            return c, 2  # c > b > a
+
+
 def dyna_ed_buildbc(m, n, x, y):
     c = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
     b = [[0 for _ in range(n)] for _ in range(m)]
@@ -15,12 +28,12 @@ def dyna_ed_buildbc(m, n, x, y):
             if x[i] == y[j]:
                 c[i + 1][j + 1] = c[i][j] + 1
                 b[i][j] = 0  # TOPLEFT
-            elif c[i][j + 1] >= c[i + 1][j]:
-                c[i + 1][j + 1] = c[i][j + 1]
-                b[i][j] = 1  # TOP
             else:
-                c[i + 1][j + 1] = c[i + 1][j]
-                b[i][j] = 2  # LEFT
+                ctop = c[i][j + 1]
+                cleft = c[i + 1][j]
+                ctopleft = c[i][j]
+
+                c[i + 1][j + 1], b[i][j] = max3(ctopleft, ctop, cleft)
 
     return b, c
 

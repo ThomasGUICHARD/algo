@@ -10,10 +10,10 @@ class EdMoveType(Enum):
 
 
 class EdMove:
-    def __init__(self, type, letter):
+    def __init__(self, type, letter, sub=""):
         self.type = type
         self.letter = letter
-        self.sub = ""
+        self.sub = sub
         self.index = 0
 
     def show(self, show_pass=False):
@@ -50,7 +50,10 @@ class EdData:
                 di = oldi - i
                 dj = oldj - j
                 if di == 1 and dj == 1:  # TOPLEFT MOVE
-                    self.add_pass(self.x[oldi])
+                    if self.x[oldi] == self.y[oldj]:  # pass
+                        self.add_pass(self.x[oldi])
+                    else:
+                        self.add_substitute(self.x[oldi], self.y[oldj])
                 elif di == 1 and dj == 0:  # TOP MOVE
                     self.add_remove(self.x[oldi])
                 elif di == 0 and dj == 1:  # LEFT MOVE
@@ -85,36 +88,28 @@ class EdData:
         """
         Add a remove operation
         """
-        if self.last != None and self.last.type == EdMoveType.INSERT:
-            n = self.last
-            n.type = EdMoveType.SUBSTITUTE
-            n.sub = n.letter
-            n.letter = letter
-        else:
-            self.last = EdMove(EdMoveType.REMOVE, letter)
-            self.p.append(self.last)
-            self.ed += 1
+        self.p.append(EdMove(EdMoveType.REMOVE, letter))
+        self.ed += 1
 
     def add_insert(self, letter):
         """
         Add an insert operation
         """
-        if self.last != None and self.last.type == EdMoveType.REMOVE:
-            n = self.last
-            n.type = EdMoveType.SUBSTITUTE
-            n.sub = letter
-        else:
-            self.last = EdMove(EdMoveType.INSERT, letter)
-            self.p.append(self.last)
-            self.ed += 1
+        self.p.append(EdMove(EdMoveType.INSERT, letter))
+        self.ed += 1
+
+    def add_substitute(self, lettera, letterb):
+        """
+        Add an substitute operation
+        """
+        self.p.append(EdMove(EdMoveType.SUBSTITUTE, lettera, letterb))
+        self.ed += 1
 
     def add_pass(self, letter):
         """
         Add a pass operation
         """
-        self.last = EdMove(EdMoveType.PASS, letter)
-
-        self.p.append(self.last)
+        self.p.append(EdMove(EdMoveType.PASS, letter))
 
     def show(self, show_pass=False):
         print("path =", self.prep)
