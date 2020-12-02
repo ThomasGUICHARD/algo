@@ -5,6 +5,7 @@ import sys
 import ed as ED
 
 from dyna import dyna_ed
+from dyna import max3
 
 
 def spaceeff_dyna(x, y, c):
@@ -18,10 +19,12 @@ def spaceeff_dyna(x, y, c):
         for j in range(1, n + 1):
             if x[i - 1] == y[j - 1]:
                 c[j][1] = c[j - 1][0] + 1
-            elif c[j - 1][1] < c[j][0]:
-                c[j][1] = c[j][0]
             else:
-                c[j][1] = c[j - 1][1]
+                ctop = c[j][0]
+                cleft = c[j - 1][1]
+                ctopleft = c[j - 1][0]
+
+                c[j][1], d = max3(ctopleft, ctop, cleft)
         for k in range(len(c)):
             c[k][0] = c[k][1]
 
@@ -37,10 +40,12 @@ def back_spaceeff_dyna(x, y, c):
         for j in range(n - 1, -1, -1):
             if x[i] == y[j]:
                 c[j][1] = c[j + 1][0] + 1
-            elif c[j][0] < c[j + 1][1]:
-                c[j][1] = c[j + 1][1]
             else:
-                c[j][1] = c[j][0]
+                cbottom = c[j][0]
+                cright = c[j + 1][1]
+                cbottomright = c[j + 1][0]
+
+                c[j][1], d = max3(cbottomright, cbottom, cright)
         for k in range(len(c)):
             c[k][0] = c[k][1]
 
@@ -97,7 +102,7 @@ def dpdnc(x, y):
 
 
 if __name__ == "__main__":
-    x = "hell"
-    y = "helico"
+    x = "helico"
+    y = "hell"
 
     dpdnc(x, y).show(True)
