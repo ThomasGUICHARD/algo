@@ -100,9 +100,41 @@ def dpdnc(x, y):
     ed.complete_indexes()
     return ed
 
+def test_set():
+    lettre=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','e','p','q','r','s','t','u','v','w','x','y','z']
+    texte1=''
+    texte2=''
+    number_lettre1=random.randint(2,100)
+    for i in range(number_lettre1):
+        rank= random.randint(0, 25)
+        texte1+=lettre[rank]
+    number_lettre2=random.randint(2,5)
+    for i in range(number_lettre2):
+        rank= random.randint(0, 25)
+        texte2+=lettre[rank]
+    return texte1, texte2
+
+
+######## Database protein ########
+import pandas as pd
+colonne=['first','second','third']
+data = pd.read_csv('proteine.csv',names=colonne, skiprows=4)
+valeur=data['third']
+
+        
 
 if __name__ == "__main__":
-    x = "helico"
-    y = "hell"
-
-    dpdnc(x, y).show(True)
+    # x = "hell"
+    # y = "helico"
+    
+    ##### For the Set test ####
+    # for i in range(0,100):
+    #     x,y=test_set()
+    #     dpdnc(x, y).show(True)
+    
+    ##### For the Database ####
+    for i in range(len(valeur)):
+        x=valeur[i]
+        if i < len(valeur)-1:
+            y=valeur[i+1]
+        dpdnc(x, y).show(True)
