@@ -78,16 +78,16 @@ def dpdnc_ed(x, y, ed, shifti=0, shiftj=0):
         buffer_forward = [[0, 0] for _ in range(len(y) + 1)]
         buffer_backward = [[0, 0] for _ in range(len(y) + 1)]
         spaceeff_dyna(x[:m // 2], y, buffer_forward)
-        back_spaceeff_dyna(x[m // 2:][::-1], y[::-1], buffer_backward)
+        back_spaceeff_dyna(x[m // 2:], y, buffer_backward)
 
         # Finding q
         q = dpdnc_ed_calcq(buffer_forward, buffer_backward)
 
         # Recursive call
         dpdnc_ed(
-            x[n // 2 + 1:], y[q + 1:], ed, shifti + n // 2 + 1, shiftj + q + 1)
+            x[m // 2:], y[q:], ed, shifti + m // 2, shiftj + q)
         dpdnc_ed(
-            x[: n // 2], y[:q], ed, shifti, shiftj)
+            x[: m // 2], y[:q], ed, shifti, shiftj)
 
 
 def dpdnc(x, y):
