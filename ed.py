@@ -111,11 +111,13 @@ class EdData:
         """
         self.p.append(EdMove(EdMoveType.PASS, letter))
 
-    def show(self, show_pass=False):
-        print("path =", self.prep)
+    def show(self, show_pass=False, show_operation=True, show_path=False):
+        if show_path:
+            print("path =", self.prep)
         print("x =", self.x)
         print("y =", self.y)
         print("ED =", self.ed)
-        for v in self.p:
-            v.show(show_pass)
+        if show_operation:
+            for v in self.p:
+                v.show(show_pass)
         print("Time = ", self.time, "s", sep="")

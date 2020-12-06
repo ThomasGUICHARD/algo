@@ -1,6 +1,7 @@
 """
 The classic algorithm based on dynamic programming. The algorithm is similar to the LCS problem
 """
+import producer
 import sys
 import ed as ED
 
@@ -87,8 +88,5 @@ def dyna(x, y):
 
 
 if __name__ == "__main__":
-    x = "helico"
-    y = "hell"
-
-    ed = dyna(x, y)
-    ed.show(True)
+    for (x, y) in producer.produce_protein():
+        dyna(x, y).show(False, False)

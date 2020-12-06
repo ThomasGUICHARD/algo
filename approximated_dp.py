@@ -1,6 +1,7 @@
 """
 An approximated version of the classical dynamic programming approach where one fills only a stripe of size k around the diagonal of the matrix.
 """
+import producer
 import sys
 import ed as ED
 from dyna import max3
@@ -83,7 +84,5 @@ def approximated_dp(x, y, k=1):
 
 
 if __name__ == "__main__":
-    x = "helico"
-    y = "hell"
-
-    approximated_dp(x, y).show(True)
+    for (x, y) in producer.produce_protein():
+        approximated_dp(x, y).show(False, False)
