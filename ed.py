@@ -114,10 +114,10 @@ class EdData:
     def show(self, show_pass=False, show_operation=True, show_path=False):
         if show_path:
             print("path =", self.prep)
-        print("x =", self.x)
-        print("y =", self.y)
-        print("ED =", self.ed)
+        # print("x =", self.x)
+        # print("y =", self.y)
+        # print("ED =", self.ed)
         if show_operation:
             for v in self.p:
                 v.show(show_pass)
-        print("Time = ", self.time, "s", sep="")
+        return self.time
