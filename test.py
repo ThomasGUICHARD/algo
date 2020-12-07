@@ -13,7 +13,8 @@ import dpdnc
 import dyna
 import greedy
 import RecursiveEditDistance
-from pandas import read_csv
+import greedy
+
 
 
 branchTab=[]
@@ -22,19 +23,28 @@ dpdncTab=[]
 dynaTab=[]
 greedyTab=[]
 recursiveTab=[]
+greedyTab=[]
 
 
-for (x, y, max_len) in producer.produce_protein():
+for (x, y, xlen,ylen) in producer.produce_protein():
     
     
     res=approximated_dp.approximated_dp(x, y).show(False, False,False)
-    approximatedTab.append([max_len,res])
+    approximatedTab.append([xlen,ylen,res])
     
     res1=dpdnc.dpdnc(x, y).show(False, False,False)
-    dpdncTab.append([max_len,res1])
+    dpdncTab.append([xlen,ylen,res1])
     
     res2=dyna.dyna(x, y).show(False, False,False)
-    dynaTab.append([max_len,res2])
+    dynaTab.append([xlen,ylen,res2])
+    
+    start_time=time()
+    greedy.gEdit_d(x,y)
+    end_time=time()
+    res3=end_time-start_time
+    greedyTab.append([xlen,ylen,res3])
+    
+    
 
 
 
@@ -44,29 +54,37 @@ dpdncTab1=[]
 dynaTab1=[]
 greedyTab1=[]
 recursiveTab1=[]
+greedyTab1=[]
 
-for (x,y,max_len) in producer.produce_random(100, max_len_x=10):
+for (x,y,xlen,ylen) in producer.produce_random(100, max_len_x=30):
     res=approximated_dp.approximated_dp(x, y).show(False, False,False)
-    approximatedTab1.append([max_len,res])
+    approximatedTab1.append([xlen,ylen,res])
     
     res1=dpdnc.dpdnc(x, y).show(False, False,False)
-    dpdncTab1.append([max_len,res1])
+    dpdncTab1.append([xlen,ylen,res1])
     
     res2=dyna.dyna(x, y).show(False, False,False)
-    dynaTab1.append([max_len,res2])
-    
-    maChaineOpe=""
-    editDistance=0
-    start_time=time()
-    editDistance,chop=RecursiveEditDistance.RecursiveEditDistance(x,y,maChaineOpe)
-    end_time=time()
-    res3=end_time-start_time
-    recursiveTab1.append([max_len,res3])
-    
+    dynaTab1.append([xlen,ylen,res2])
     
     maChaineOpe=""
     start_time=time()
-    result, a1, a2, chope  = BranchAndBoundEditDistance.branch_and_bound(x,y,maChaineOpe,0,max(len(x),len(y)))
+    BranchAndBoundEditDistance.branch_and_bound(x,y,"",0,max(xlen,ylen))
     end_time=time()
     res4=end_time-start_time
-    branchTab1.append([max_len,res4])
+    branchTab1.append([xlen,ylen,res4])
+    
+    
+    maChaineOpe=""
+    start_time=time()
+    RecursiveEditDistance.RecursiveEditDistance(x,y,maChaineOpe)
+    RecursiveEditDistance.RecursiveSequenceAlignment(x,y)
+    end_time=time()
+    res3=end_time-start_time
+    recursiveTab1.append([xlen,ylen,res3])
+    
+    
+    start_time=time()
+    greedy.gEdit_d(x,y)
+    end_time=time()
+    res5=end_time-start_time
+    greedyTab1.append([xlen,ylen,res5])
