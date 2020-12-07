@@ -20,16 +20,15 @@ def branch_and_bound(machaineRef,machaineModifable,machaineOpe,cost=0,bound=0):
         return lcR, [machaineRef[i] for i in range(lcR)], ["_" for i in range(lcR)], machaineOpe
    
  
-    #Cost of the last character of machaineRef for this step and the next
-    # and Cost of the last character of machaineModifiable for this step and the next
+    #Cost of the node
     weight1 = abs((lcR-1)-lcM)
     weight2 = abs(lcR-(lcM-1))
     weight3 = weight1+cost
     weight4 = weight2+cost
     
-    #we check the cost of the last two characters of the both strings
+    #we check the cost of the nod
     weightw = abs((lcR-1)-(lcM-1))
-
+    #we check the two last letters of both strings
     if machaineRef[-1] == machaineModifable[-1]:
         weightm = weightw + cost - 1
     else:
@@ -88,8 +87,8 @@ def branch_and_bound(machaineRef,machaineModifable,machaineOpe,cost=0,bound=0):
 
 
 
-machaineRef="testtttttttttttttttttttttttttttttttttttttttt"
-machaineModifable="mon"
+machaineRef="testttttt"
+machaineModifable="monnn"
 maChaineOpe=""
 
 
